@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mappings xmlns="http://dozermapper.github.io/schema/bean-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://dozermapper.github.io/schema/bean-mapping https://dozermapper.github.io/schema/bean-mapping.xsd">
+    <configuration>
+        <wildcard>false</wildcard>
+    </configuration>
+    <mapping>
+        <class-a>org.example.s4.Req</class-a>
+        <class-b>org.mycompany.Employee</class-b>
+        <field>
+            <a>refId</a>
+            <b>refId</b>
+        </field>
+        <field>
+            <a>reqTime</a>
+            <b>reqTime</b>
+        </field>
+        <field>
+            <a>idNo</a>
+            <b>idNo</b>
+        </field>
+    </mapping>
+</mappings>

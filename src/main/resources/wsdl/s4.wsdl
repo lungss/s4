@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.example.org/s4/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="s4" targetNamespace="http://www.example.org/s4/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.example.org/s4/">
+      <xsd:element name="req">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="refId" type="xsd:string"/>
+            <xsd:element name="reqTime" type="xsd:string"/>
+            <xsd:element name="idNo" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="rpl">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="refId" type="xsd:string"/>
+            <xsd:element name="reqTime" type="xsd:string"/>
+            <xsd:element name="rplTime" type="xsd:string"/>
+            <xsd:element name="employeeProfile">
+              <xsd:complexType>
+                <xsd:sequence>
+                	<xsd:element name="name" type="xsd:string"/>
+                	<xsd:element name="employeeNo" type="xsd:string"/>
+                	<xsd:element name="idNo" type="xsd:string"/>
+                	<xsd:element name="passportNo" type="xsd:string"/>
+                	<xsd:element name="dob" type="xsd:string"/>
+                	<xsd:element name="role" type="xsd:string"/>
+                	<xsd:element name="employmentDate" type="xsd:string"/>
+                	<xsd:element name="employmentStatus" type="xsd:string"/>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="s4OperationRequest">
+    <wsdl:part element="tns:req" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="s4OperationResponse">
+    <wsdl:part element="tns:rpl" name="parameters"/>
+  </wsdl:message>
+  <wsdl:portType name="s4">
+    <wsdl:operation name="s4Operation">
+      <wsdl:input message="tns:s4OperationRequest"/>
+      <wsdl:output message="tns:s4OperationResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="s4SOAP" type="tns:s4">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="s4Operation">
+      <soap:operation soapAction="http://www.example.org/s4/s4Operation"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="s4">
+    <wsdl:port binding="tns:s4SOAP" name="s4SOAP">
+      <soap:address location="http://www.example.org/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

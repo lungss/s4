@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:cxf="http://camel.apache.org/schema/cxf"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="      http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd      http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring       https://camel.apache.org/schema/spring/camel-spring.xsd">
+    <cxf:cxfEndpoint address="/s4" id="mycxf" serviceClass="org.example.s4.S4"/>
+    <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
+        <endpoint id="req" uri="dozer:req?sourceModel=org.example.s4.Req&amp;targetModel=org.mycompany.Employee&amp;mappingFile=req.xml"/>
+        <endpoint id="rpl" uri="dozer:response?sourceModel=org.mycompany.Employee&amp;targetModel=org.example.s4.Rpl&amp;mappingFile=rpl.xml"/>
+        <route id="s4">
+            <from id="cxf:bean:mycxf" uri="cxf:bean:mycxf"/>
+            <!--
+            <log id="_log1" message="1: ${body[]} ${body[0]}"/>
+            -->
+            <to id="_to3" uri="ref:req"/>
+            <marshal id="_marshal1">
+                <json library="Jackson"/>
+            </marshal>
+            <log id="_log2" message="2: ${body[]} ${body[0]}"/>
+            <setHeader headerName="Content-Type" id="_setHeader1">
+                <constant>application/json</constant>
+            </setHeader>
+            <to id="_to1" uri="netty4-http:http:node-red-git-nodered.mycluster-179309-bee7ed7e116952c03f0e15cdb555fa9a-0000.sng01.containers.appdomain.cloud:80/hr"/>
+            <unmarshal id="_unmarshal1">
+                <json allowUnmarshallType="true" library="Jackson" unmarshalTypeName="org.mycompany.Employee"/>
+            </unmarshal>
+            <to id="_to2" uri="ref:rpl"/>
+        </route>
+    </camelContext>
+</beans>
